@@ -16,5 +16,5 @@ alias installneovim="sudo apt-get install neovim"
 
 # RVM
 alias installrvm="\curl -sSL https://get.rvm.io | bash -s stable --ruby"
-source /home/pi/.rvm/scripts/rvm
+source ~/.rvm/scripts/rvm
 # rvm install 2.6.8
