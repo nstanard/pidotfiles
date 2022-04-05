@@ -26,4 +26,4 @@ source /home/pi/.rvm/scripts/rvm
 # https://brew.sh/
 # https://docs.brew.sh/Homebrew-on-Linux#install
 # https://github.com/Homebrew/brew/issues/11320
-alias brewblah="brew update --force --quiet"
+# alias brewblah="brew update --force --quiet"
