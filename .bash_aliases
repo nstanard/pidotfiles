@@ -13,6 +13,7 @@ alias c="clear"
 
 # Neovim
 alias installneovim="sudo apt-get install neovim"
+alias installcurl="sudo apt install curl"
 
 # RVM
 alias installrvm="\curl -sSL https://get.rvm.io | bash -s stable --ruby"
