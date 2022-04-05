@@ -1,0 +1,2 @@
+# https://askubuntu.com/questions/1298076/why-cant-i-use-the-mouse-at-all
+sudo modprobe -r psmouse && sudo modprobe psmouse proto=imps
