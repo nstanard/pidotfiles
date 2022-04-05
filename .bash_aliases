@@ -1,4 +1,5 @@
 # Sys
+alias sys="uname -a"
 alias update="sudo apt update"
 alias upgrade="sudo apt full-upgrade"
 alias upclean="sudo apt clean"
