@@ -57,3 +57,17 @@ setupNvchad () {
   installnewerneovim
   installnvchad
 }
+
+# Nerd fonts
+installNerdFonts () {
+ mkdir -p ~/Development
+ cd ~/Development
+ 
+ if [ ! -d "./nerd-fonts" ] ; then
+   git clone --depth 1 https://github.com/ryanoasis/nerd-fonts.git
+ fi 
+
+ cd nerd-fonts
+
+ ./install.sh SpaceMono
+}
