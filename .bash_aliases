@@ -22,3 +22,8 @@ alias installrvm="\curl -sSL https://get.rvm.io | bash -s stable --ruby"
 
 # list aliases
 alias commands="grep -in --color -e '^alias\s+*' ~/.bash_aliases | sed 's/alias //' | grep --color -e ':[a-z][a-z0-9]*'"
+
+# Motion
+alias installmotion="sudo apt-get install motion -y"
+
+alias listusb="lsusb"
