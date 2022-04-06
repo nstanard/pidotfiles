@@ -17,5 +17,8 @@ alias installcurl="sudo apt install curl"
 
 # RVM
 alias installrvm="\curl -sSL https://get.rvm.io | bash -s stable --ruby"
-source /home/pi/.rvm/scripts/rvm
+# source /home/pi/.rvm/scripts/rvm
 # rvm install 2.6.8
+
+# list aliases
+alias commands="grep -in --color -e '^alias\s+*' ~/.bash_aliases | sed 's/alias //' | grep --color -e ':[a-z][a-z0-9]*'"
