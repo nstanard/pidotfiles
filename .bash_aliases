@@ -1,5 +1,8 @@
+# https://www.raspberrypi.com/documentation/accessories/camera.html
+
 # Sys
 alias sys="uname -a"
+alias rconfig="sudo raspi-config"
 alias update="sudo apt update"
 alias upgrade="sudo apt full-upgrade"
 alias upclean="sudo apt clean"
@@ -17,13 +20,14 @@ alias installcurl="sudo apt install curl"
 
 # RVM
 alias installrvm="\curl -sSL https://get.rvm.io | bash -s stable --ruby"
-# source /home/pi/.rvm/scripts/rvm
+source ~/.rvm/scripts/rvm
 # rvm install 2.6.8
 
 # list aliases
 alias commands="grep -in --color -e '^alias\s+*' ~/.bash_aliases | sed 's/alias //' | grep --color -e ':[a-z][a-z0-9]*'"
 
-# Motion
 alias installmotion="sudo apt-get install motion -y"
 
 alias listusb="lsusb"
+
+alias listvideo="ls /dev/video*"
