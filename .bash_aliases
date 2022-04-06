@@ -31,3 +31,8 @@ alias installmotion="sudo apt-get install motion -y"
 alias listusb="lsusb"
 
 alias listvideo="ls /dev/video*"
+
+# https://raspberrypi.stackexchange.com/questions/118881/how-to-install-the-latest-version-of-neovim
+
+alias installsnap="sudo apt install snapd"
+alias installnewerneovim="sudo snap install --classic nvim"
