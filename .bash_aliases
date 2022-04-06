@@ -36,3 +36,5 @@ alias listvideo="ls /dev/video*"
 
 alias installsnap="sudo apt install snapd"
 alias installnewerneovim="sudo snap install --classic nvim"
+# /snap/bin/nvim
+
