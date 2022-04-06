@@ -1,5 +1,16 @@
 # https://www.raspberrypi.com/documentation/accessories/camera.html
 
+# easily add to $PATH
+pathmunge () {
+    if ! echo "$PATH" | grep -Eq "(^|:)$1($|:)"; then
+        if [ "$2" = "after" ] ; then
+            PATH="$PATH:$1"
+        else
+            PATH="$1:$PATH"
+        fi
+    fi
+}
+
 # Sys
 alias sys="uname -a"
 alias rconfig="sudo raspi-config"
@@ -36,5 +47,5 @@ alias listvideo="ls /dev/video*"
 
 alias installsnap="sudo apt install snapd"
 alias installnewerneovim="sudo snap install --classic nvim"
-# /snap/bin/nvim
+#pathmunge "/snap/bin"
 
