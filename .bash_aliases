@@ -76,3 +76,45 @@ installNerdFonts () {
 alias camstart="libcamera-vid -t 0 --width 1080 --height 720 -q 100 -n --codec mjpeg --inline --listen -o tcp://0.0.0.0:8888 -v"
 alias camlisten="ffplay tcp://0.0.0.0:8888 -vf \"setpts=N/30\" -fflags nobuffer -flags low_delay -framedrop"
 
+alias driverinfo="v4l2-ctl -d /dev/video0 --all"
+alias listdevices="v4l2-ctl --list-devices"
+alias supportedformats="v4l2-ctl --list-formats"
+alias listencoders="ffmpeg -hide_banner -encoders | grep -E \"h264|mjpeg\""
+alias listallencoders="ffmpeg -encoders"
+alias listsupportedformats="ffmpeg -h encoder=h264_omx"
+
+alias listcodecs="ffmpeg -codecs"
+alias listh264="ffmpeg -codecs | grep -E \"h264\""
+
+# Writes to output.mp4 from the libcamera-vid stream (record alias)
+function fftest () {
+  ffmpeg -y \
+    -i tcp://0.0.0.0:8888 \
+    -c:v copy \
+    output.mp4
+}
+
+# HLS output
+function ffhls () {
+  ffmpeg -y \
+    -i tcp://0.0.0.0:8888 \
+    -c:v copy \
+    -f hls \
+    -hls_time 1 \
+    -hls_list_size 30 \
+    -hls_flags delete_segments \
+    /dev/shm/hls/live.m3u8
+}
+
+# Dash output
+function ffdash () {
+  ffmpeg \
+    -i tcp://0.0.0.0:8888 \
+    -c:v copy \
+    -f dash \
+    -seg_duration 1 \
+    -streaming 1 \
+    -window_size 30 -remove_at_exit 1 \
+    /dev/shm/dash/live.mpd
+}
+
