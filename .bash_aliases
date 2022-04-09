@@ -56,6 +56,7 @@ setupNvchad () {
   installsnap
   installnewerneovim
   installnvchad
+  echo "alias vi=\"nvim\"" >> ~/.bash_aliases
 }
 
 # Nerd fonts
