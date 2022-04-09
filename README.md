@@ -14,6 +14,7 @@ sys: Linux pi 5.10.92-v7l+ #1514 SMP Mon Jan 17 17:38:03 GMT 2022 armv7l GNU/Lin
 #     - https://ffmpeg.org/download.html#get-sources
 #     - https://trac.ffmpeg.org/wiki/StreamingGuide
 #     - https://ffmpeg.org/ffplay.html#Stream-specifiers-1
+#     - https://www.codeinsideout.com/blog/pi/stream-ffmpeg-hls-dash/ <- was the closest/best resource so far for trying to et libcamera-vid -> stream over http
 #  - mkvserver https://github.com/klaxa/mkvserver_mk2
 #
 -->
