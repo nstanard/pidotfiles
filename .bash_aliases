@@ -101,8 +101,7 @@ function ffhls () {
     -c:v copy \
     -f hls \
     -hls_time 1 \
-    -hls_list_size 30 \
-    -hls_flags delete_segments \
+    -hls_list_size 120 \
     /dev/shm/hls/live.m3u8
 }
 
