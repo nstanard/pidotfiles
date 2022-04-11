@@ -117,3 +117,6 @@ function ffdash () {
     /dev/shm/dash/live.mpd
 }
 
+mkdir -p /dev/shm/hls
+mkdir -p /dev/shm/dash
+
