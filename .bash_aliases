@@ -12,7 +12,11 @@ pathmunge () {
 
 # Setup
 
+## Make directories for HLS and Dash (used in apache2 for the camera output)
 mkdir -p /dev/shm/hls
+if [ ! /var/www/html/hls ] ; then
+  ln -s /dev/shm/hls /var/www/html/hls
+fi
 mkdir -p /dev/shm/dash
 
 # Sys
@@ -117,6 +121,73 @@ ffdash () {
     -streaming 1 \
     -window_size 30 -remove_at_exit 1 \
     /dev/shm/dash/live.mpd
+}
+
+writeToHlsFile () {
+cat << EOF > $1
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>HLS Live Stream</title>
+    </head>
+    <body>
+        <h1>HLS Live Stream</h1>
+        <script src="hls.js"></script>
+        <video id="video" controls autoplay></video>
+        <script>
+            var video = document.getElementById("video");
+            var videoSrc = "hls/live.m3u8";
+            // First check for native browser HLS support
+            if (video.canPlayType("application/vnd.apple.mpegurl")) {
+                video.src = videoSrc;
+            }
+            // If no native HLS support, check if hls.js is supported
+            else if (Hls.isSupported()) {
+                var hls = new Hls();
+                hls.loadSource(videoSrc);
+                hls.attachMedia(video);
+            }
+        </script>
+    </body>
+</html>
+EOF
+}
+
+setHlsFiles () {
+  sudo chown pi:pi /var/www/html
+  touch /var/www/html/hls.html
+  chown pi:pi /var/www/html/hls.html
+  writeToHlsFile /var/www/html/hls.html
+}
+
+postImageSetup () {
+  update
+  upgrade
+  update
+  upgrade
+ 
+  # Install ffmpeg
+  sudo apt install -y ffmpeg
+
+  # Install Apache
+  sudo apt install -y apache2
+
+  setHlsFiles
+
+  # Install curl
+  installcurl
+
+  # Install RVM
+  command curl -sSL https://rvm.io/mpapis.asc | gpg --import -
+  command curl -sSL https://rvm.io/pkuczynski.asc | gpg --import -
+  installrvm 
+
+  # Install NvChad
+  installNvchad
+
+  # Install Nerd Fonts
+  installNerdFonts
 }
 
 pathmunge /snap/bin
