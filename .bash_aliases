@@ -127,3 +127,19 @@ function ffdash () {
 mkdir -p /dev/shm/hls
 mkdir -p /dev/shm/dash
 
+pathmunge "/snap/bin"
+alias vi="nvim"
+
+if [ -n "$PATH" ]; then
+  old_PATH=$PATH:; PATH=/home/pi/.rvm/gems/ruby-3.0.0/bin
+  while [ -n "$old_PATH" ]; do
+    x=${old_PATH%%:*}       # the first remaining entry
+    case $PATH: in
+      *:"$x":*) ;;          # already there
+      *) PATH=$PATH:$x;;    # not there yet
+    esac
+    old_PATH=${old_PATH#*:}
+  done
+  PATH=${PATH#:}
+  unset old_PATH x
+fi
