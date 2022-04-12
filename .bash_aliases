@@ -47,16 +47,23 @@ alias listvideo="ls /dev/video*"
 
 alias installsnap="sudo apt install snapd"
 alias installnewerneovim="sudo snap install --classic nvim"
-#pathmunge "/snap/bin"
 
 alias installnvchad="git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
 nvim +'hi NormalFloat guibg=#1e222a' +PackerSync"
 
 setupNvchad () {
-  installsnap
-  installnewerneovim
-  installnvchad
-  echo "alias vi=\"nvim\"" >> ~/.bash_aliases
+  if [ ! -d /snap/bin ] ; then
+    installsnap
+    echo "pathmunge \"/snap/bin\"" >> ~/.bash_aliases
+  fi
+  
+  if [ ! -d /home/pi/.config/nvim ] ; then 
+    installnewerneovim
+    installnvchad
+    echo "alias vi=\"nvim\"" >> ~/.bash_aliases
+  fi
+
+  reload
 }
 
 # Nerd fonts
