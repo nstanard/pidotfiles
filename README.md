@@ -17,4 +17,42 @@ sys: Linux pi 5.10.92-v7l+ #1514 SMP Mon Jan 17 17:38:03 GMT 2022 armv7l GNU/Lin
 #     - https://www.codeinsideout.com/blog/pi/stream-ffmpeg-hls-dash/ <- was the closest/best resource so far for trying to et libcamera-vid -> stream over http
 #  - mkvserver https://github.com/klaxa/mkvserver_mk2
 #
+
+
+
+. copy over .bash_aliases
+
+---
+
+. run installrvm
+
+command curl -sSL https://rvm.io/mpapis.asc | gpg --import -
+command curl -sSL https://rvm.io/pkuczynski.asc | gpg --import -
+
+Required for insallrvm ^
+
+---
+
+. reload
+
+. update
+
+. upgrade
+
+. setupNvchad <- nvim, command not found at the end...?
+
+^ changed a lot here..... should wipe HD clean and restart
+
+installNerdFonts
+
+installed ffmpeg
+sudo apt install -y ffmpeg
+
+Installed apache:
+sudo apt install -y apache2
+
+Link hls folder:
+sudo ln -hls /s/dev/shm /hls/var/www/html
+
+
 -->
