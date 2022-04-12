@@ -80,7 +80,7 @@ installNerdFonts () {
  ./install.sh SpaceMono
 }
 
-alias record="libcamera-vid -t 0 --width 1080 --height 720 -q 100 -n --codec mjpeg --inline --listen -o tcp://0.0.0.0:8888 -v"
+alias record="libcamera-vid -t 0 --width 1080 --height 720 -q 100 -n --inline --listen -o tcp://0.0.0.0:8888 -v"
 alias play="ffplay tcp://0.0.0.0:8888 -vf \"setpts=N/30\" -fflags nobuffer -flags low_delay -framedrop"
 
 alias driverinfo="v4l2-ctl -d /dev/video0 --all"
