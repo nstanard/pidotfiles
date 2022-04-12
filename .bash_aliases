@@ -162,8 +162,36 @@ setHlsFiles () {
   writeToHlsFile /var/www/html/hls.html
 }
 
-writeToRecord () {
-cat << EOF > $1
+writeToServiceFile () {
+sudo cat << EOF > $1
+[Unit]
+ Description=record and serve over http
+ ConditionPathExists=~/Development/record.sh
+
+[Service]
+ Type=forking
+ ExecStart=~/Development/record.sh
+ TimeoutSec=0
+ StandardOutput=tty
+ RemainAfterExit=yes
+ SysVStartPriority=99
+
+[Service]
+ Type=forking
+ ExecStart=~/Development/serve.sh
+ TimeoutSec=15
+ StandardOutput=tty
+ RemainAfterExit=yes
+ SysVStartPriority=99
+
+[Install]
+ WantedBy=multi-user.target
+}
+EOF
+}
+
+writeToRecordFile () {
+sudo cat << EOF > $1
 #!/bin/bash
 shopt -s expand_aliases
 source ~/.bash_aliases
@@ -171,26 +199,33 @@ recordd
 EOF
 }
 
-writeToServe () {
-cat << EOF > $1
+
+writeToServeFile () {
+sudo cat << EOF > $1
 #!/bin/bash
 shopt -s expand_aliases
 source ~/.bash_aliases
-ffhls
+ffhls &
 EOF
 }
 
 setStartup () {
   sudo touch ~/Development/record.sh
-  writeToRecord ~/Development/record.sh
+  sudo chown pi:pi ~/Development/record.sh
+  sudo chmod +x ~/Development/record.sh
+  writeToRecordFile ~/Development/record.sh
 
   sudo touch ~/Development/serve.sh
-  writeToServe ~/Development/serve.sh
+  sudo chown pi:pi ~/Development/serve.sh
+  sudo chmod +x ~/Development/serve.sh
+  writeToServeFile ~/Development/serve.sh
+
+  sudo touch /etc/systemd/system/startup.service
+  sudo chown pi:pi /etc/systemd/system/startup.service
+  writeToServiceFile /etc/systemd/system/startup.service
 }
 
 postImageSetup () {
-  update
-  upgrade
   update
   upgrade
  
