@@ -29,6 +29,7 @@ alias uprem="sudo apt autoremove"
 alias listusb="lsusb"
 alias listvideo="ls /dev/video*"
 alias record="libcamera-vid -t 0 --width 1080 --height 720 -q 60 -n --inline --listen -o tcp://0.0.0.0:8888 -v"
+alias recordd="libcamera-vid -t 0 --width 1080 --height 720 -q 60 -n --inline --listen -o tcp://0.0.0.0:8888 -v &"
 alias play="ffplay tcp://0.0.0.0:8888 -vf \"setpts=N/30\" -fflags nobuffer -flags low_delay -framedrop"
 
 alias driverinfo="v4l2-ctl -d /dev/video0 --all"
@@ -161,6 +162,32 @@ setHlsFiles () {
   writeToHlsFile /var/www/html/hls.html
 }
 
+writeToRecord () {
+cat << EOF > $1
+#!/bin/bash
+shopt -s expand_aliases
+source ~/.bash_aliases
+recordd
+EOF
+}
+
+writeToServe () {
+cat << EOF > $1
+#!/bin/bash
+shopt -s expand_aliases
+source ~/.bash_aliases
+ffhls
+EOF
+}
+
+setStartup () {
+  sudo touch ~/Development/record.sh
+  writeToRecord ~/Development/record.sh
+
+  sudo touch ~/Development/serve.sh
+  writeToServe ~/Development/serve.sh
+}
+
 postImageSetup () {
   update
   upgrade
@@ -174,6 +201,7 @@ postImageSetup () {
   sudo apt install -y apache2
 
   setHlsFiles
+  setStartup
 
   # Install curl
   installcurl
