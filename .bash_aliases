@@ -133,7 +133,7 @@ cat << EOF > $1
     </head>
     <body>
         <h1>HLS Live Stream</h1>
-        <script src="hls.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
         <video id="video" controls autoplay></video>
         <script>
             var video = document.getElementById("video");
