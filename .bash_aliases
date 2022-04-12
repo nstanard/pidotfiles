@@ -51,7 +51,7 @@ alias installnewerneovim="sudo snap install --classic nvim"
 alias installnvchad="git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
 nvim +'hi NormalFloat guibg=#1e222a' +PackerSync"
 
-setupNvchad () {
+installNvchad () {
   if [ ! -d /snap/bin ] ; then
     installsnap
     echo "pathmunge \"/snap/bin\"" >> ~/.bash_aliases
