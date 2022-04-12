@@ -28,7 +28,7 @@ alias upclean="sudo apt clean"
 alias uprem="sudo apt autoremove"
 alias listusb="lsusb"
 alias listvideo="ls /dev/video*"
-alias record="libcamera-vid -t 0 --width 1080 --height 720 -q 100 -n --inline --listen -o tcp://0.0.0.0:8888 -v"
+alias record="libcamera-vid -t 0 --width 1080 --height 720 -q 60 -n --inline --listen -o tcp://0.0.0.0:8888 -v"
 alias play="ffplay tcp://0.0.0.0:8888 -vf \"setpts=N/30\" -fflags nobuffer -flags low_delay -framedrop"
 
 alias driverinfo="v4l2-ctl -d /dev/video0 --all"
@@ -104,12 +104,13 @@ fftest () {
 ffhls () {
   ffmpeg -y \
     -i tcp://0.0.0.0:8888 \
-    -c:v copy \
+    -c: copy \
     -f hls \
     -hls_time 1 \
-    -hls_list_size 120 \
+    -hls_list_size 30 \
     /dev/shm/hls/live.m3u8
 }
+# -c:v copy \
 
 # Dash output
 ffdash () {
@@ -129,10 +130,9 @@ cat << EOF > $1
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>HLS Live Stream</title>
+        <title>Live Stream</title>
     </head>
     <body>
-        <h1>HLS Live Stream</h1>
         <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
         <video id="video" controls autoplay></video>
         <script>
