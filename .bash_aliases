@@ -191,8 +191,6 @@ setStartup () {
 postImageSetup () {
   update
   upgrade
-  update
-  upgrade
  
   # Install ffmpeg
   sudo apt install -y ffmpeg
