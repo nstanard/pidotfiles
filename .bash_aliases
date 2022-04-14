@@ -157,7 +157,7 @@ EOF
 }
 
 writeToRcLocalFile () {
-cat << EOF > $1
+sudo cat << EOF > $1
 #!/bin/sh -e
 #
 # rc.local
@@ -178,8 +178,11 @@ if [ "$_IP" ]; then
   printf "My IP address is %s\n" "$_IP"
 fi
 
-sudo bash /home/pi/Development/record.sh &
-sudo bash /home/pi/Development/serve.sh &
+sudo bash -c 'bash /home/pi/Development/record.sh > /home/pi/Development/record.log>&1' &
+sudo bash -c 'bash /home/pi/Development/serve.sh > /home/pi/Development/serve.log>&1' &
+
+#sudo bash /home/pi/Development/record.sh &
+#sudo bash /home/pi/Development/serve.sh &
 
 exit 0
 EOF
@@ -222,7 +225,7 @@ cat << EOF > $1
 #!/bin/bash
 shopt -s expand_aliases
 source ~/.bash_aliases
-recordd
+record
 EOF
 }
 
@@ -258,6 +261,25 @@ postImageSetup () {
 
   setHlsFiles
   setStartup
+
+  # /lib/systemd/system
+  # cd /lib/systemd/system
+  # sudo touch startup-record.service
+  # sudo nano startup-record.service
+  # Write: 
+#[Unit]
+#Description=Start the record alias on startup
+#After=multi-user.target
+
+#[Service]
+#ExecStart=/usr/bin/bash /home/pi/Development/record.sh
+#User=pi
+
+#[Install]
+#WantedBy=multi-user.target
+
+# Run: sudo systemctl daemon-reload
+# Run: sudo systemctl enable startup-record.service
 
   # Install curl
   installcurl
