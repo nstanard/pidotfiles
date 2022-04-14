@@ -110,8 +110,9 @@ ffhls () {
     -hls_time 1 \
     -hls_list_size 30 \
     /dev/shm/hls/live.m3u8
+
 }
-# -c:v copy \
+alias serve="ffhls"
 
 # Dash output
 ffdash () {
@@ -162,12 +163,27 @@ setHlsFiles () {
   writeToHlsFile /var/www/html/hls.html
 }
 
+writeToServiceFile () {
+sudo cat << EOF > $1
+[Unit]
+Description=Start the record alias on startup
+After=multi-user.target
+
+[Service]
+ExecStart=/usr/bin/bash /home/pi/Development/record.sh
+User=pi
+
+[Install]
+WantedBy=multi-user.target
+EOF
+}
+
 writeToRecord () {
 cat << EOF > $1
 #!/bin/bash
 shopt -s expand_aliases
 source ~/.bash_aliases
-recordd
+record
 EOF
 }
 
@@ -186,6 +202,12 @@ setStartup () {
 
   sudo touch ~/Development/serve.sh
   writeToServe ~/Development/serve.sh
+
+  sudo touch /lib/systemd/system/startup-record.service
+  writeToServiceFile /lib/systemd/system/startup-record.service
+
+  sudo systemctl daemon-reload
+  sudo systemctl enable startup-record.service
 }
 
 postImageSetup () {
