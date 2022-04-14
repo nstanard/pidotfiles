@@ -156,38 +156,6 @@ cat << EOF > $1
 EOF
 }
 
-writeToRcLocalFile () {
-sudo cat << EOF > $1
-#!/bin/sh -e
-#
-# rc.local
-#
-# This script is executed at the end of each multiuser runlevel.
-# Make sure that the script will "exit 0" on success or any other
-# value on error.
-#
-# In order to enable or disable this script just change the execution
-# bits.
-#
-# By default this script does nothing.
-
-
-# Print the IP address
-_IP=$(hostname -I) || true
-if [ "$_IP" ]; then
-  printf "My IP address is %s\n" "$_IP"
-fi
-
-sudo bash -c 'bash /home/pi/Development/record.sh > /home/pi/Development/record.log>&1' &
-sudo bash -c 'bash /home/pi/Development/serve.sh > /home/pi/Development/serve.log>&1' &
-
-#sudo bash /home/pi/Development/record.sh &
-#sudo bash /home/pi/Development/serve.sh &
-
-exit 0
-EOF
-}
-
 setHlsFiles () {
   sudo chown pi:pi /var/www/html
   touch /var/www/html/hls.html
@@ -198,25 +166,15 @@ setHlsFiles () {
 writeToServiceFile () {
 sudo cat << EOF > $1
 [Unit]
- Description=record and serve over http
- ConditionPathExists=~/Development/record.sh
+Description=Start the record alias on startup
+After=multi-user.target
+
 [Service]
- Type=forking
- ExecStart=~/Development/record.sh
- TimeoutSec=0
- StandardOutput=tty
- RemainAfterExit=yes
- SysVStartPriority=99
-[Service]
- Type=forking
- ExecStart=~/Development/serve.sh
- TimeoutSec=15
- StandardOutput=tty
- RemainAfterExit=yes
- SysVStartPriority=99
+ExecStart=/usr/bin/bash /home/pi/Development/record.sh
+User=pi
+
 [Install]
- WantedBy=multi-user.target
-}
+WantedBy=multi-user.target
 EOF
 }
 
@@ -245,8 +203,11 @@ setStartup () {
   sudo touch ~/Development/serve.sh
   writeToServe ~/Development/serve.sh
 
-  # sudo touch /etc/systemd/system/startup.service
-  # writeToServiceFile /etc/systemd/system/startup.service
+  sudo touch /lib/systemd/system/startup-record.service
+  writeToServiceFile /lib/systemd/system/startup-record.service
+
+  sudo systemctl daemon-reload
+  sudo systemctl enable startup-record.service
 }
 
 postImageSetup () {
@@ -261,25 +222,6 @@ postImageSetup () {
 
   setHlsFiles
   setStartup
-
-  # /lib/systemd/system
-  # cd /lib/systemd/system
-  # sudo touch startup-record.service
-  # sudo nano startup-record.service
-  # Write: 
-#[Unit]
-#Description=Start the record alias on startup
-#After=multi-user.target
-
-#[Service]
-#ExecStart=/usr/bin/bash /home/pi/Development/record.sh
-#User=pi
-
-#[Install]
-#WantedBy=multi-user.target
-
-# Run: sudo systemctl daemon-reload
-# Run: sudo systemctl enable startup-record.service
 
   # Install curl
   installcurl
