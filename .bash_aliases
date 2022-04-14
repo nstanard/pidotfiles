@@ -21,6 +21,7 @@ mkdir -p /dev/shm/dash
 
 # Sys
 alias sys="uname -a"
+alias listservices="sudo systemctl list-unit-files"
 alias rconfig="sudo raspi-config"
 alias update="sudo apt update"
 alias upgrade="sudo apt full-upgrade"
@@ -163,7 +164,7 @@ setHlsFiles () {
   writeToHlsFile /var/www/html/hls.html
 }
 
-writeToServiceFile () {
+writeToRecordFile () {
 sudo cat << EOF > $1
 [Unit]
 Description=Start the record alias on startup
@@ -171,6 +172,23 @@ After=multi-user.target
 
 [Service]
 ExecStart=/usr/bin/bash /home/pi/Development/record.sh
+User=pi
+
+[Install]
+WantedBy=multi-user.target
+EOF
+}
+
+# NOT WORKING
+# /bin/sleep 5 && ~/Development/serve
+writeToServeFile () {
+sudo cat << EOF > $1
+[Unit]
+Description=Serve the record command up over http
+After=multi-user.target
+
+[Service]
+ExecStart=/usr/bin/bash /home/pi/Development/serve.sh
 User=pi
 
 [Install]
@@ -192,7 +210,8 @@ cat << EOF > $1
 #!/bin/bash
 shopt -s expand_aliases
 source ~/.bash_aliases
-ffhls
+sudo touch ~/Development/serving.log
+/bin/sleep 10 && ffhls
 EOF
 }
 
@@ -204,10 +223,18 @@ setStartup () {
   writeToServe ~/Development/serve.sh
 
   sudo touch /lib/systemd/system/startup-record.service
-  writeToServiceFile /lib/systemd/system/startup-record.service
+  sudo chown pi:pi /lib/systemd/system/startup-record.service
+  writeToRecordFile /lib/systemd/system/startup-record.service
+  sudo chown root:root /lib/systemd/system/startup-record.service
+
+  sudo touch /lib/systemd/system/startup-serve.service
+  sudo chown pi:pi /lib/systemd/system/startup-serve.service
+  writeToServeFile /lib/systemd/system/startup-serve.service
+  sudo chown root:root /lib/systemd/system/startup-serve.service
 
   sudo systemctl daemon-reload
   sudo systemctl enable startup-record.service
+  sudo systemctl enable startup-serve.service
 }
 
 postImageSetup () {
