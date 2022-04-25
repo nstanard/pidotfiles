@@ -28,7 +28,7 @@ alias upclean="sudo apt clean"
 alias uprem="sudo apt autoremove"
 alias listusb="lsusb"
 alias listvideo="ls /dev/video*"
-alias record="libcamera-vid -t 0 --width 1080 --height 720 -q 100 -n --inline --listen -o tcp://0.0.0.0:8888 -v"
+alias record="libcamera-vid -t 0 --width 1080 --height 720 --shutter 120 --framerate 30 -q 100 -n --inline --listen -o tcp://0.0.0.0:8888 -v"
 alias recordd="libcamera-vid -t 0 --width 1080 --height 720 -q 100 -n --inline --listen -o tcp://0.0.0.0:8888 -v &"
 alias play="ffplay tcp://0.0.0.0:8888 -vf \"setpts=N/30\" -fflags nobuffer -flags low_delay -framedrop"
 
