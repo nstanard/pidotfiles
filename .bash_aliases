@@ -58,7 +58,11 @@ alias installrvm="\curl -sSL https://get.rvm.io | bash -s stable --ruby"
 # list aliases
 alias commands="grep -in --color -e '^alias\s+*' ~/.bash_aliases | sed 's/alias //' | grep --color -e ':[a-z][a-z0-9]*'"
 
+
 alias installsnap="sudo apt install snapd"
+
+alias installngrok="sudo snap install ngrok"
+
 alias installnewerneovim="sudo snap install --classic nvim"
 alias installnvchad="git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
 nvim +'hi NormalFloat guibg=#1e222a' +PackerSync"
