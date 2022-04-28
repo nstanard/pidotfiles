@@ -108,7 +108,7 @@ ffhls () {
     -c: copy \
     -f hls \
     -hls_time 1 \
-    -hls_list_size 30 \
+    -hls_list_size 0 \
     /dev/shm/hls/live.m3u8
 }
 # -c:v copy \
