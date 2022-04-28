@@ -54,5 +54,9 @@ sudo apt install -y apache2
 Link hls folder:
 sudo ln -hls /s/dev/shm /hls/var/www/html
 
-
+Resources/Links: 
+ - https://www.acunetix.com/blog/articles/10-tips-secure-apache-installation/
+ - https://www.tecmint.com/apache-security-tips/
+ - https://geekflare.com/10-best-practices-to-secure-and-harden-your-apache-web-server/
+ - https://help.dreamhost.com/hc/en-us/articles/226327268-The-most-important-steps-to-take-to-make-an-Apache-server-more-secure
 -->
