@@ -219,6 +219,7 @@ postImageSetup () {
   # Install Nerd Fonts
   installNerdFonts
 }
+# sudo mv /var/www/html/hls.html /var/www/html/index.html <- maybe add to post setup, 
 
 pathmunge /snap/bin
 pathmunge ~/.rvm/bin
