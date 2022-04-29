@@ -113,6 +113,7 @@ ffhls () {
     -f hls \
     -hls_time 1 \
     -hls_list_size 0 \
+    -hls_delete_threshold 2 \
     /dev/shm/hls/live.m3u8
 }
 # -c:v copy \
